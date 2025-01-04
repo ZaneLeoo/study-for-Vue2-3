@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      body {
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+        height: 100vh; /* 使 body 高度填满视口 */
+        margin: 0; /* 去除默认的 body margin */
+        background-color: #f0f0f0; /* 背景颜色 */
+      }
+      #app {
+        text-align: center; /* 使内容居中 */
+        border: 1px solid #ccc; /* 可选的边框 */
+        padding: 20px; /* 内边距 */
+        background-color: white; /* 白色背景 */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* 可选的阴影 */
+      }
+      button {
+        padding: 10px 20px; /* 上下内边距 10px，左右内边距 20px */
+        font-size: 16px; /* 字体大小 */
+        color: #fff; /* 字体颜色为白色 */
+        background-color: #007bff; /* 按钮背景色 */
+        border: none; /* 去除默认边框 */
+        border-radius: 25px; /* 圆角效果，25px 可以调整大小 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 阴影效果，x轴 0，y轴 4px，模糊 8px，颜色透明度 0.2 */
+        cursor: pointer; /* 鼠标悬停时变成手型 */
+        transition: all 0.3s ease; /* 平滑过渡效果，0.3秒 */
+      }
+
+      button:hover {
+        background-color: #0056b3; /* 鼠标悬停时背景颜色变为更深的蓝色 */
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* 鼠标悬停时，阴影变大 */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Welcome to view my favorite pictures</h1>
+      <img v-bind:src="image" width="650" /><br /><br />
+      <button @click="changeImage">Click to change image</button>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        images: [
+          "./image/f02.jpg",
+          "./image/f03.jpg",
+          "./image/f04.jpg",
+          "./image/f05.jpg",
+        ],
+        image: "",
+      },
+      methods: {
+        changeImage() {
+          // 随机选择一个图片
+          const randomIndex = Math.floor(Math.random() * this.images.length);
+          this.image = this.images[randomIndex];
+        },
+      },
+      mounted() {
+        this.changeImage();
+      },
+    });
+  </script>
+</html>
