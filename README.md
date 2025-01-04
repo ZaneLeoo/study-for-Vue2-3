@@ -1,3 +1,3 @@
 # study-for-Vue3
 
-学习 Vue3 的一个库
+学习 Vue 的一个库
