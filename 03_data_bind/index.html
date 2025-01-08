@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      #app {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .ip {
+        margin-top: 20px;
+      }
+    </style>
+    <!-- 
+    这里展示 vue 的数据绑定模式
+    1. v-bind 单向绑定，template -> data
+    2. v-model 双向绑定 template <-> data
+
+    v-model 只能作用于有值的元素上
+    例如：input select ....
+    -->
+  </head>
+  <body>
+    <div id="app">
+      <div class="ip">
+        One-way data binding <input type="text" :value="value" />
+      </div>
+      <div class="ip">
+        Two-way data binding <input type="text" v-model="value" />
+      </div>
+    </div>
+  </body>
+  <script>
+    const vue = new Vue({
+      data() {
+        return {
+          value: "Tom",
+        };
+      },
+    });
+    vue.$mount("#app");
+  </script>
+</html>

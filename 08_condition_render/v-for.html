@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 
+        演示列表渲染 v-for 的使用
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      .basic {
+        display: flex;
+        justify-content: center;
+        padding: 100px;
+        gap: 40px;
+      }
+
+      .item {
+        width: auto;
+        padding: 50px;
+        border: 2px solid black;
+        border-radius: 15px;
+        /* text-align: center; */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="basic">
+      <!-- 遍历数组元素 -->
+      <div class="item">
+        <ul>
+          <li v-for="(person,index) in people">
+            <h1>{{person}} -> {{index}}</h1>
+          </li>
+        </ul>
+      </div>
+      <!-- 遍历一个对象 -->
+      <div class="item">
+        <ul>
+          <li v-for="(value,name) in object">
+            <h1>{{name}} -> {{value}}</h1>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        people: ["Jack", "Tom", "Jackson"],
+        object: {
+          title: "How to do lists in Vue",
+          author: "Zane Leo",
+          publishedAt: "2025-01-06",
+        },
+      },
+    });
+  </script>
+</html>

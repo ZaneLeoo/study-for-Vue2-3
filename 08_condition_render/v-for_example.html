@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 
+        演示列表渲染 v-for 的使用
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      .basic {
+        display: flex;
+        justify-content: center;
+        padding: 100px;
+        gap: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <input type="text" placeholder="请输入名字:" v-model="input" />
+      <button @click="sortType = 1">年龄升序</button>
+      <button @click="sortType = 2">年龄降序</button>
+      <button @click="sortType = 0">原顺序</button>
+      <ul>
+        <li v-for="person in filterPeople">
+          {{person.name}} is {{person.age}} years old
+        </li>
+      </ul>
+    </div>
+  </body>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        input: "",
+        sortType: 0, // 0原顺序 1升序 2降序
+        people: [
+          { name: "Jack", age: 18 },
+          { name: "Jackson", age: 22 },
+          { name: "Tom", age: 31 },
+          { name: "Tim", age: 19 },
+        ],
+      },
+      computed: {
+        filterPeople() {
+          // 过滤逻辑
+          const filterArr = this.people.filter((person) => {
+            return person.name.toLowerCase().includes(this.input.toLowerCase());
+          });
+          // 排序逻辑
+          if (this.sortType !== 0) {
+            filterArr.sort((a, b) =>
+              this.sortType === 1 ? a.age - b.age : b.age - a.age
+            );
+          }
+          return filterArr;
+        },
+      },
+    });
+  </script>
+</html>

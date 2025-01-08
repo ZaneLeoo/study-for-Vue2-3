@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <!-- 
+        演示 Vue 的生命周期阶段，生命周期中调用的钩子函数
+        beforeCreate  created
+        beforeMount   mounted
+        beforeUpdate  updated
+        beforeDestroy destroyed
+
+        常用的生命周期钩子函数如下
+        1. created 这个时候可以请求数据
+        2. mounted 可以设置定时器，发请求等
+        3. beforeDestroy 可以做一些结束的处理
+    -->
+  </head>
+  <body>
+    <div id="app">
+      <h2>This is {{name}}</h2>
+      <br />
+      <h2>{{age}}</h2>
+      <button @click="age++">age++</button>
+      <button @click="destroy">destroy to Vue</button>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          name: "Jackson",
+          age: 18,
+        };
+      },
+      methods: {
+        destroy() {
+          this.$destroy();
+        },
+      },
+      beforeCreate() {
+        console.log("初始化时间和生命周期函数,数据还获取不到");
+        console.log(this.name);
+      },
+      created() {
+        console.log("Vue已经初始化了数据,可以对数据进行操作");
+        console.log(this.name);
+      },
+      beforeMount() {
+        console.log("模板解析完成，但是还没有挂载,此时页面是原始DOM");
+      },
+      mounted() {
+        console.log("挂载完毕,页面已经是解析过的DOM元素");
+      },
+      beforeUpdate() {
+        console.log("数据更新时调用,此时数据已经更新,但还未更新视图");
+        console.log(this.age);
+      },
+      updated() {
+        console.log("数据和视图已经更新完毕...");
+        console.log(this.age);
+      },
+      beforeDestroy() {
+        console.log("Vue实例销毁之前调用,可以访问数据但修改无效");
+        console.log("一般做一些后续的处理工作,例如关闭定时器等..");
+        this.age = 99;
+        console.log(this.age);
+        debugger;
+      },
+      destroyed() {
+        console.log("Vue 已经被销毁,数据和指令等都已经无效");
+      },
+    });
+  </script>
+</html>

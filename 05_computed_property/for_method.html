@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      #app {
+        display: flex;
+        justify-content: center;
+        padding: 200px;
+      }
+      #container {
+        border: 2px solid black;
+        padding: 30px;
+      }
+    </style>
+
+    <!--
+        这里演示了方法实现，如果一个值需要经过计算的出来的情况
+        但是这里有一个问题，如果多个地方需要 fullname，那么每次都需要调用方法
+        如果方法计算量比较大会耗费性能
+        因此延伸出 computed ，这里会对值进行缓存，具体看 for_computed.html
+      -->
+  </head>
+  <body>
+    <div id="app">
+      <div id="container">
+        First name <input type="text" v-model="firstname" /> <br /><br />
+        Last name <input type="text" v-model="lastname" /><br /><br />
+        Full name is {{fullname()}}
+      </div>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          firstname: "",
+          lastname: "",
+        };
+      },
+      methods: {
+        fullname() {
+          return this.firstname + "-" + this.lastname;
+        },
+      },
+    });
+  </script>
+</html>

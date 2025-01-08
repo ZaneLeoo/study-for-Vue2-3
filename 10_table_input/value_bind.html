@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+  </head>
+  <!--
+        对于单选按钮，复选框及选择框的选项，v-model 绑定的值通常是静态字符串 (对于复选框也可以是布尔值)：
+        但是有时我们可能想把值绑定到 Vue 实例的一个动态 property 上
+        这时可以用 v-bind 实现，并且这个 property 的值可以不是字符串。
+
+        v-model 中，可以用修饰符进行一些输入的限制和优化
+        1. lazy     失去焦点或input时间之后才响应
+        2. number   将文本自动转换成数字类型
+        3. trim     前后去空格
+  -->
+  <body>
+    <div id="app">
+      <div>
+        <select v-model="selected" multiple>
+          <option v-for="person in people">{{person}}</option>
+        </select>
+        <p>{{selected}}</p>
+      </div>
+      <div>
+        <!-- lazy + trim -->
+        say someting: <input type="text" v-model.trim.lazy="msg" />
+        <p>Message is {{msg}}</p>
+        <!-- number 转成数字类型 -->
+        Age: <input type="number" v-model.number="age" />
+      </div>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data: {
+        selected: [],
+        people: ["Jack", "Tom"],
+        msg: "",
+        age: "",
+      },
+    });
+  </script>
+</html>

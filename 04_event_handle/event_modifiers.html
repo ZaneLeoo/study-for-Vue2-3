@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      #app {
+        display: flex;
+        justify-content: center;
+        padding: 100px;
+        flex-direction: column;
+      }
+      .item {
+        border: 2px solid black;
+        text-align: center;
+        padding: 20px;
+      }
+    </style>
+    <!--
+				Vue中的事件修饰符：
+                1.prevent：阻止默认事件（常用）；
+                2.stop：阻止事件冒泡（常用）；
+                3.once：事件只触发一次（常用）；
+
+                4.capture：使用事件的捕获模式；
+                5.self：只有event.target是当前操作的元素时才触发事件；
+                6.passive：事件的默认行为立即执行，无需等待事件回调执行完毕；
+		--></head>
+  <body>
+    <div id="app">
+      <div class="item">
+        <!-- 演示点击但是不跳转 -->
+        <a href="https://github.com/" @click.prevent="toGithub"
+          >click to Github</a
+        >
+        <h1>We will not to Github...</h1>
+      </div>
+      <div class="item">
+        <!-- 演示事件只触发一次 -->
+        <button @click.once="getLucky">click</button>
+        <h1>Click to get lucky</h1>
+      </div>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {};
+      },
+      methods: {
+        toGithub() {
+          alert("We will to Github");
+        },
+        getLucky() {
+          alert("get lucky !!!!!!!!!!!!!!");
+        },
+      },
+    });
+  </script>
+</html>

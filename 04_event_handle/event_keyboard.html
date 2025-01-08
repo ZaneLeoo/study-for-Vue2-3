@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      #app {
+        display: flex;
+        justify-content: center;
+        padding: 100px;
+      }
+      #container {
+        text-align: center;
+        border: 2px solid black;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="container">
+        <input type="text" @keyup.enter="onEnter" v-model="userInput" />
+        <h3>press the enter key output information</h3>
+        <h3>press the space key output the I lOVE YOU !</h3>
+        <input type="text" @keyup.space="toLove" value="" />
+      </div>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          userInput: "",
+        };
+      },
+      methods: {
+        onEnter() {
+          alert(this.userInput);
+        },
+        toLove() {
+          alert("I LOVE YOU !");
+        },
+      },
+    });
+  </script>
+</html>

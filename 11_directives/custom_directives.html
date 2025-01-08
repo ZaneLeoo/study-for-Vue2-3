@@ -4,23 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
   </head>
   <body>
     <div id="app">
-      <h1>Hello {{name}}</h1>
-      <h1>I feel very {{state}}</h1>
-      <h1>{{date}}</h1>
+      <input type="text" v-focus />
     </div>
   </body>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
   <script>
-    Vue.config.productionTip = false;
     new Vue({
       el: "#app",
-      data: {
-        name: "Lin",
-        state: "happy",
-        date: Date.now(),
+      data: {},
+      directives: {
+        focus: {
+          inserted(el) {
+            el.focus();
+          },
+        },
       },
     });
   </script>

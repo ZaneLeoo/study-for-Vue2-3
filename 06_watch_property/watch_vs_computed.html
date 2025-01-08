@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!--
+        这里说一下 computed 和 watch 的使用时机
+        看起来2者都能实现一些操作，但使用场景上还是有一些差别
+        1. computed 适合通过已有数据计算衍生出一些数据，并进行缓存
+           例如以下的 firstname + lastname = fullname 例子
+        2. watch 适合在监视的数据变化时执行一些复杂的操作
+           例如以下的例子：input框内容变化时，我们发起一个异步请求并限制次数等些许复杂的操作
+    -->
+    <style>
+      #app {
+        display: flex;
+        justify-self: center;
+        flex-direction: column;
+      }
+      #computed-example,
+      #watch-example {
+        width: 300px;
+        border: 2px solid black;
+        padding: 30px;
+        text-align: center;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div id="computed-example">
+        First name <input type="text" v-model="firstname" /> <br /><br />
+        Last name <input type="text" v-model="lastname" /><br /><br />
+        Full name is {{fullname}}
+      </div>
+      <div id="watch-example">
+        <p>
+          Ask a yes/no question:
+          <input v-model="question" />
+        </p>
+        <p>{{ answer }}</p>
+        <img :src="image" style="width: 200px" />
+      </div>
+    </div>
+  </body>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          firstname: "",
+          lastname: "",
+          question: "",
+          answer: "I cannot give you an answer until you ask a question!",
+          image: "",
+        };
+      },
+      // 计算属性，适合通过已有数据计算出一个新的值，且具备缓存功能
+      computed: {
+        fullname() {
+          console.log("fullname starts calculation...");
+          return this.firstname + "-" + this.lastname;
+        },
+      },
+      watch: {
+        // 如果 `question` 发生改变，这个函数就会运行
+        question: function (newQuestion, oldQuestion) {
+          this.answer = "Waiting for you to stop typing...";
+          this.debouncedGetAnswer();
+        },
+      },
+      created: function () {
+        // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+        // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+        // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+        // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+        // 请参考：https://lodash.com/docs#debounce
+        this.debouncedGetAnswer = _.debounce(this.getAnswer, 1000);
+      },
+      methods: {
+        getAnswer: function () {
+          if (this.question.indexOf("?") === -1) {
+            this.answer = "Questions usually contain a question mark. ;-)";
+            return;
+          }
+          this.answer = "Thinking...";
+          var vm = this;
+          axios
+            .get("https://yesno.wtf/api")
+            .then(function (response) {
+              vm.answer = _.capitalize(response.data.answer);
+              vm.image = response.data.image;
+            })
+            .catch(function (error) {
+              vm.answer = "Error! Could not reach the API. " + error;
+            });
+        },
+      },
+    });
+  </script>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+
+    <!-- 
+        这里将说说 Vue 的响应式原理
+        1. 演示 Vue 不能检测到的数据改变
+        2. 说明 Vue 实现响应式原理的底层逻辑
+    -->
+  </head>
+  <style>
+    #app {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <!-- 演示数组的数据更新不检测情况 -->
+      <div>
+        <ul>
+          <li v-for="person in arr">Hi {{person.name}}</li>
+        </ul>
+        <button @click="changeTom">点击改变Tom -> (Vue检测不到)</button>
+      </div>
+      <!-- 演示对象的数据更新不检测情况 -->
+      <div>
+        <h1>Dog is Spike</h1>
+        <ul>
+          <li v-for="(value,key) in dog">{{key}} -> {{value}}</li>
+        </ul>
+        <button @click="addProperty">
+          点击给Spike添加心情 -> (Vue检测不到)
+        </button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        arr: [{ name: "Jack" }, { name: "Tom" }],
+        dog: {
+          name: "Spike",
+          age: 2,
+        },
+      },
+      methods: {
+        changeTom() {
+          // 这里不会被Vue检测到，因此不会进行响应式更新
+          //   this.arr[1] = { name: "Jackson" };
+
+          // 这里会触发Vue的检测，因此其 Property 会转换成 setter and getter
+          this.arr[1].name = "Jackson";
+        },
+        addProperty() {
+          // 这里不会被Vue检测到，因此不会进行响应式更新
+          // 因为新添加的property 不会转换成 setter and getter，因此不会出发vue的响应式更新
+          //   this.dog.mood = "happy";
+          //
+          //
+          // 这里会进行出发，Vue会转换这个 property
+          // method 1
+          //   Vue.set(vm.dog, "mood", "happy");
+          // method 2
+          this.$set(this.dog, "mood", "happy");
+        },
+      },
+    });
+  </script>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      #app {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        padding: 200px;
+        gap: 20px;
+      }
+      #info {
+        width: 700px;
+        border: 2px solid black;
+        border-radius: 15px;
+        padding: 20px;
+        /* text-align: center; */
+      }
+      #buttons {
+        width: 700px;
+        border: 2px solid black;
+        border-radius: 15px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
+      button {
+        width: 350px;
+        height: 40px;
+        font-size: 17px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="info">
+        <h1>Student Information</h1>
+        <h3>Name: {{student.name}}</h3>
+        <h3 v-if="student.gender">Gender: {{student.gender}}</h3>
+        <h3>Age: {{student.age}}</h3>
+        <div id="hobby">
+          <h3>Hobby:</h3>
+          <ul>
+            <li v-for="(hobby,index) in student.hobbies" :key="index">
+              {{hobby}}
+            </li>
+          </ul>
+        </div>
+        <div id="friend">
+          <h3>Friend:</h3>
+          <ul>
+            <li v-for="friend in student.friends" :key="friend.name">
+              {{friend.name}}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="buttons">
+        <button @click="student.age++">age + 1</button>
+        <button @click="addGender">
+          Add gender attribute, the default is male
+        </button>
+        <button @click.once="addFriendToTop">
+          Add a friend to the top of the list
+        </button>
+        <button @click.once="changeFirstname">
+          Change the first friend's name to Joy
+        </button>
+        <button @click="addHobby">Add a Hobby</button>
+        <button @click="changeFirstHobby">
+          Change the first hobby to driving
+        </button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        student: {
+          name: "Jack",
+          age: 18,
+          hobbies: ["basketball", "tennis"],
+          friends: [{ name: "Jackson" }, { name: "Zane" }],
+        },
+      },
+      methods: {
+        addGender() {
+          Vue.set(this.student, "gender", "male");
+        },
+        addFriendToTop() {
+          this.student.friends.unshift({ name: "Tom" });
+        },
+        changeFirstname() {
+          this.student.friends[0].name = "Joy";
+        },
+        addHobby() {
+          this.student.hobbies.push("running");
+        },
+        changeFirstHobby() {
+          this.student.hobbies.splice(0, 1, "driving");
+        },
+      },
+    });
+  </script>
+</html>

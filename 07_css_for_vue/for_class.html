@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      #app {
+        display: flex;
+        justify-content: center;
+        padding: 200px;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      button {
+        width: 330px;
+      }
+
+      .basic {
+        width: 300px;
+        border: 2px solid black;
+        padding: 20px;
+        text-align: center;
+        background-color: darkgray;
+        border-radius: 15px;
+      }
+
+      .happy {
+        width: 300px;
+        border: 2px solid black;
+        padding: 20px;
+        text-align: center;
+        background-color: aquamarine;
+      }
+
+      .angry {
+        width: 300px;
+        border: 2px solid black;
+        padding: 20px;
+        text-align: center;
+        background-color: brown;
+        border-radius: 50%;
+      }
+    </style>
+    <!--
+    演示 Vue 操作 CSS，这里分为 class 和 style，class常用
+    由于 CSS 样式也是作为属性存在，因此可以直接使用 v-bind:
+    例如 :class   :style
+    形式：字符串、数组、对象
+    具体使用参考以下例子 
+      -->
+  </head>
+  <body>
+    <div id="app">
+      <div :class="moodClass">HAPPY NEW YEAR!</div>
+      <button @click="isHappy = !isHappy">点击改变心情颜色</button>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          isHappy: false,
+        };
+      },
+      //   methods: {
+      //     changeMood() {
+      //       this.mood = this.isHappy ? "happy" : "angry";
+      //       this.isHappy = !this.isHappy;
+      //     },
+      //   },
+
+      computed: {
+        //   mood() {
+        //     console.log("change mood");
+        //     return this.isHappy ? "happy" : "angry";
+        //   },
+
+        moodClass() {
+          return {
+            happy: this.isHappy,
+            angry: !this.isHappy,
+          };
+        },
+      },
+    });
+  </script>
+</html>

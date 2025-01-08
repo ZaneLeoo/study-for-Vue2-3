@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <!-- 
+        演示条件渲染的使用，顾名思义，只有满足条件的适合才进行渲染
+        if - else
+        语法：v-if v-else
+
+        v-show 也是判断的语句，区别如下 
+        1.v-if在渲染时会正在的删除和创建符合的DOM
+        2.v-show不管DOM元素是否符合条件，都会进行渲染，在解析模板的时候只是调整DOM的display = none / ''
+          并且不能与 v-else 一起使用、不能作用在 template上
+          template 不会生成DOM，因此没有 display
+          v-else 需要前置DOM没有生成，因为 v-show 总是会生成DOM，因此不行
+
+        使用场景
+        v-if适合不频繁切换的条件，v-show适合频繁切换的条件
+        当然如果要配合 v-else，那 only v-if
+        
+    -->
+    <style>
+      #app {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .borderClass {
+        border: 2px solid black;
+        padding: 20px;
+        border-radius: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="borderClass">
+        <h1 v-if="awesome">I am awesome! 🥳</h1>
+        <h1 v-else>Oh no 😢</h1>
+      </div>
+      <h1>Show else-if</h1>
+      <div class="borderClass">
+        <h1 v-if="answer == 'A'">This is A! 😊</h1>
+        <h1 v-else-if="answer == 'B'">This is B! 😁</h1>
+        <h1 v-else="answer == 'C'">This is C! 😎</h1>
+      </div>
+      <button @click="changeAnswer">click to change emoji</button>
+    </div>
+  </body>
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          awesome: false,
+          answer: "",
+        };
+      },
+      methods: {
+        changeAnswer() {
+          const answers = ["A", "B", "C"];
+          this.answer = answers[Math.floor(Math.random() * 3)];
+        },
+      },
+    });
+  </script>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+      #app {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        padding: 100px;
+      }
+      #color_div {
+        width: 200px;
+        padding: 10px;
+        color: blanchedalmond;
+        border: 1px solid block;
+      }
+      .red-background {
+        background-color: rgb(16, 63, 60);
+      }
+      .blue-background {
+        background-color: rgb(98, 0, 255);
+      }
+      .green-background {
+        background-color: rgb(109, 182, 70);
+      }
+    </style>
+    <!-- 
+     演示事件的基本使用..
+    -->
+  </head>
+  <body>
+    <div id="app">
+      <div id="color_div" v-bind:class="backgroundClass">
+        This div has a dynamic background color using class.
+      </div>
+      <button @click="changeColor">Change Background Color</button>
+    </div>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          backgroundClass: "red-background", // 初始 CSS 类
+        },
+        methods: {
+          changeColor() {
+            // 根据条件切换背景类
+            const classes = [
+              "red-background",
+              "blue-background",
+              "green-background",
+            ];
+            this.backgroundClass =
+              classes[Math.floor(Math.random() * classes.length)];
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

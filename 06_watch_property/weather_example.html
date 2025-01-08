@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+  </head>
+  <!-- 
+            这里的天气例子是计算属性实现的，但是我也可以用 watch 实现
+            监视属性就是当你监视的属性变化时，你可以用一个方法进行一些额外的操作
+        -->
+  <style>
+    #app {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding: 200px;
+    }
+    button {
+      width: 200px;
+    }
+  </style>
+  <body>
+    <div id="app">
+      <h1>今天天气是很{{weather}}!</h1>
+      <br />
+      <button @click="isHot = !isHot">点击改变</button>
+    </div>
+  </body>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data() {
+        return {
+          isHot: true,
+          weather: "炎热",
+        };
+      },
+      // 计算属性实现
+      //   computed: {
+      //     weather() {
+      //       return
+      //     },
+      //   },
+
+      // watch 有2种写法，1是配置项，2是API接口
+
+      watch: {
+        // 以下是 isHot 配置项的完整写法
+        //     isHot: {
+        //       immediate: true, // 自动调用一次
+        //       // 深度监视，例如 person.age，想要监视，只有开启 deep 才支持
+        //       deep: true,
+        //       handler(newValue, oldValue) {
+        //         console.log("改变了天气...");
+        //         this.weather = this.isHot ? "炎热" : "寒冷";
+        //       },
+        //     },
+        //
+        //
+        // 如果不需要其他配置项，可以简写
+        // isHot() {
+        //   console.log("改变了天气...");
+        //   this.weather = this.isHot ? "炎热" : "寒冷";
+        // },
+      },
+    });
+
+    vm.$watch("isHot", function () {
+      console.log("改变了天气...");
+      this.weather = this.isHot ? "炎热" : "寒冷";
+    });
+  </script>
+</html>
