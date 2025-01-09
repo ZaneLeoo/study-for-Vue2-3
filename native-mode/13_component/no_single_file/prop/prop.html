@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+  </head>
+  <!-- 
+        这里演示 Prop 的一些细节问题
+        1. Prop 这里以 camelCase 的形式 ： xxx-xxx
+        2. Prop 的类型：子组件接受数据的时候可以规定类型，如下
+            props: {
+               person: Object,
+               name  : String
+                    }
+        3. 可以使用 v-bind: 来传入一个动态的数据，如下,这里的msg来自父组件的 data 区
+            <people-list v-bind:message='msg'></people-list>
+        4. 单向数据流：
+            所有的 prop 都使得其父子 prop 之间形成了一个单向下行绑定：父级 prop 的更新会向下流动到子组件中，
+            但是反过来则不行。这样会防止从子组件意外变更父级组件的状态，从而导致你的应用的数据流向难以理解。
+  -->
+  <body>
+    <div id="app">
+      <div :style="{ fontSize: listFontSize + 'em' }">
+        <people-list
+          v-for="person in people"
+          :key="person.id"
+          :person="person"
+          @enlarge-text="listFontSize += $event"
+        ></people-list>
+      </div>
+    </div>
+  </body>
+  <script>
+    Vue.component("people-list", {
+      // 以函数的形式返回数据,使得每一个标签都维护一份拷贝的数据
+      data() {
+        return {
+          count: 0,
+        };
+      },
+      props: {
+        person: Object,
+      },
+      // 只能有一个 root element
+      template: `
+        <div class='people-list'>
+        <h1>{{person.name}} --- {{person.age}}</h1>
+        <button v-on:click="$emit('enlarge-text',0.5)">
+        Enlarge text
+        </button>
+        </div>
+      `,
+    });
+
+    new Vue({
+      el: "#app",
+      data: {
+        listFontSize: 1,
+        mes: "",
+        people: [
+          { id: "001", name: "Jackson", age: 18 },
+          { id: "002", name: "Tom", age: 20 },
+          { id: "003", name: "Jeery", age: 27 },
+        ],
+      },
+    });
+  </script>
+</html>

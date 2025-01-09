@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <!-- 
+        这里说一点细节上的东西
+        1. 定义组件通过 Vue.extend 去调用 VueComponent 的构造函数，但是这里可以简写
+        2. 组件其实是一个 VueComponent 的实例对象
+        3. VueComponent的 __proto__ 是Vue，因此可以使用Vue原型对象上的东西，类似一个继承的关系
+
+        演示一下 Component 的嵌套
+    -->
+  </head>
+  <body>
+    <div id="app">
+      <app></app>
+    </div>
+  </body>
+  <script>
+    const student = {
+      template: `
+        <div>
+        <h1>This is student!</h1>
+        </div>
+        `,
+    }
+
+    const school = {
+      template: `
+        <div>
+        <h1>This is school!</h1>
+        <student></student>
+        </div>
+        `,
+      components: {
+        student,
+      },
+    }
+
+    const classroom = {
+      template: `
+        <div>
+        <h1>This is classroom!</h1>
+        </div>
+        `,
+      components: {},
+    }
+
+    // 标准开发中，通常使用 app 组件来管理其他组件，vm只管理app
+    const app = {
+      template: `
+        <div>
+        <school></school>
+        <classroom></classroom>
+        </div>
+        
+      `,
+      components: {
+        school,
+        classroom,
+      },
+    }
+
+    new Vue({
+      el: '#app',
+      components: { app },
+    })
+  </script>
+</html>

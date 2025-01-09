@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <!-- 
+        我们开发组件时，有时候子组件需要跟父组件沟通，必须请求修改一些数据
+        这个时候我们可以通过在子组件定义事件然后父组件进行监听并实现
+        1. 例子如下：
+        子组件 $emit(event-name) 发出一个事件,这里可以有一个参数,例如 0.1 表示放大0.1
+        父组件 @event-name='do somting...' 监听这个事件并进行实现,用$event接受参数
+
+        2. 组件上使用 v-model，正常组件中，例如 input，我们可以直接使用 v-model
+           但是自定义组件中，我们如果想要使用 v-model 需要进行一些操作，使得事件和数据能同步
+           
+           <input v-model="searchText"> 
+           <input
+              v-bind:value="searchText"
+              v-on:input="searchText = $event.target.value"
+
+            因此，我们如果要 v-model，必须自己进行绑定
+
+            
+>
+    -->
+  </head>
+  <body>
+    <div id="blog-posts-events-demo">
+      <div :style="{fontSize: postFontSize + 'em'}">
+        <blog-post
+          :post="post"
+          @enlarge-text="postFontSize += $event"
+        ></blog-post>
+      </div>
+      <div>
+        <h3>下面是一个自定义输入组件</h3>
+        <br />
+        <custom-input v-model="searchText"></custom-input>
+      </div>
+    </div>
+  </body>
+  <script>
+    // 博文组件
+    Vue.component("blog-post", {
+      props: ["post"],
+      template: `
+       <div class="blog-post">
+      <h3>{{ post.title }}</h3>
+      <button @click="$emit('enlarge-text',0.1)">
+        Enlarge text
+      </button>
+      <div v-html="post.content"></div>
+      </div>
+      `,
+      data() {
+        return {};
+      },
+    });
+    // 自定义输入组件
+    Vue.component("custom-input", {
+      props: ["value"],
+      template: `
+      <div>
+        <input :value="value" @input="$emit('input',$event.target.value)" />
+      </div>
+      `,
+      data() {
+        return {};
+      },
+    });
+
+    new Vue({
+      el: "#blog-posts-events-demo",
+      data: {
+        postFontSize: 1,
+        searchText: "",
+        post: { title: "Wowww 😁" },
+      },
+    });
+  </script>
+</html>
